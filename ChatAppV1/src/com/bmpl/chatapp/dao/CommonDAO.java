@@ -8,7 +8,7 @@ import static com.bmpl.chatapp.dao.ConfigReader.getValue;
 
 public class CommonDAO {
 	
-	Connection createConnection() throws ClassNotFoundException, SQLException {
+	public static Connection createConnection() throws ClassNotFoundException, SQLException {
 		// Load Driver
 		Class.forName(getValue("DRIVER"));
 		// Build Connection with DB
@@ -18,14 +18,14 @@ public class CommonDAO {
 		Connection con = DriverManager.getConnection(CON_STRING, USER_ID, USER_PWD);
 		if(con != null) {
 			System.out.println("Connection Created with DB...");
-			con.close();
+//			con.close();
 		}
 		return con;
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		CommonDAO obj = new CommonDAO();
-		obj.createConnection();
-	}
+//	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+//		CommonDAO obj = new CommonDAO();
+//		obj.createConnection();
+//	}
 
 }

@@ -4,11 +4,19 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
+
+import com.bmpl.chatapp.dao.UserDAO;
+import com.bmpl.chatapp.dto.UserDTO;
+
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LoginView extends JFrame {
 	private JTextField textField;
@@ -53,6 +61,11 @@ public class LoginView extends JFrame {
 		getContentPane().add(btnNewButton);
 		
 		JButton btnRegisterUser = new JButton("Register User");
+		btnRegisterUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doRegister();
+			}
+		});
 		btnRegisterUser.setForeground(Color.WHITE);
 		btnRegisterUser.setFont(new Font("Tahoma", Font.BOLD, 24));
 		btnRegisterUser.setBackground(Color.RED);
@@ -60,6 +73,27 @@ public class LoginView extends JFrame {
 		getContentPane().add(btnRegisterUser);
 		setResizable(false);
 		setVisible(true);
+	}
+	
+	UserDAO userDAO = new UserDAO();
+	
+	public void doRegister() {
+		String userId = textField.getText();
+		char []password = passwordField.getPassword();
+		UserDTO user = new UserDTO(userId, password);
+		try {
+			int record = userDAO.register(user);
+			if(record > 0) {
+				JOptionPane.showMessageDialog(this, "Registered Successfully...");
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Registration Failed...");
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {
