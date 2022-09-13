@@ -16,6 +16,7 @@ import com.bmpl.chatapp.dto.UserDTO;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class LoginView extends JFrame {
@@ -54,6 +55,11 @@ public class LoginView extends JFrame {
 		getContentPane().add(passwordField);
 		
 		JButton btnNewButton = new JButton("Login User");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doLogin();
+			}
+		});
 		btnNewButton.setBackground(Color.RED);
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -92,6 +98,27 @@ public class LoginView extends JFrame {
 		}
 		catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	public void doLogin() {
+		String userId = textField.getText();
+		char []password = passwordField.getPassword();
+		UserDTO user = new UserDTO(userId, password);
+		try {
+			boolean result = userDAO.login(user);
+			if(result) {
+				JOptionPane.showMessageDialog(this, "Login Success...");
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Login Failed...");
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
