@@ -24,37 +24,38 @@ public class ServerWorker extends Thread {
 	public void run() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		String line;
-		while(true) {
-			try {
+		try {
+			while(true){
+				// reading message from network
 				line = br.readLine();
 				// broadcasting...sending msg to all clients...
 				for(ServerWorker serverWorker : server.workers) {
 					//serverWorker.out.write(line.getBytes());
 					serverWorker.out.write((line + "\n").getBytes());
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				break;
+			} 
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(br != null) {
+					br.close();
+				}
+				if(in != null) {
+					in.close();
+				}
+				if(out != null) {
+					out.close();
+				}
+				if(clientSocket != null) {
+					clientSocket.close();
+				}
 			}
-			finally {
-				try {
-					if(br != null) {
-						br.close();
-					}
-					if(in != null) {
-						in.close();
-					}
-					if(out != null) {
-						out.close();
-					}
-					if(clientSocket != null) {
-						clientSocket.close();
-					}
-				}
-				catch(Exception e) {
-					e.printStackTrace();
-				}
+			catch(Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

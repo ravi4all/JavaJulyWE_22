@@ -19,15 +19,36 @@ public class ClientWorker extends Thread {
 	public void run() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		String line;
-		while(true) {
-			try {
+		
+		try {
+			while(true) {
 				line = br.readLine();
 				textArea.setText(textArea.getText() + line);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		finally {
+			if(br != null) {
+				try {
+					br.close();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+//		while(true) {
+//			try {
+//				line = br.readLine();
+//				textArea.setText(textArea.getText() + line);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 	}
 	
 }
